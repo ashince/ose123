@@ -14,7 +14,7 @@ ansible_ssh_user=root
 deployment_type=openshift-enterprise
 containerized=false
 debug_level=2
-openshift_release=v3.7
+openshift_release=v3.9
 
 # default project node selector
 osm_default_node_selector='env=infra'
@@ -34,9 +34,9 @@ osm_cockpit_plugins=['cockpit-kubernetes']
 openshift_master_api_port=8443
 openshift_master_console_port=8443
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname=104.211.154.71
-openshift_master_cluster_public_hostname=104.211.154.71
-openshift_master_default_subdomain=apps.104.211.154.71.xip.io
+openshift_master_cluster_hostname=104.211.90.203
+openshift_master_cluster_public_hostname=104.211.90.203
+openshift_master_default_subdomain=apps.104.211.90.203.xip.io
 openshift_master_overwrite_named_certificates=True
 #openshift_set_hostname=False
 openshift_docker_insecure_registries=30.30.0.0/16
@@ -76,7 +76,7 @@ openshift_hosted_metrics_storage_volume_size=5Gi
 openshift_metrics_hawkular_nodeselector={"env":"infra"}
 openshift_metrics_cassandra_nodeselector={"env":"infra"}
 openshift_metrics_heapster_nodeselector={"env":"infra"}
-openshift_hosted_metrics_public_url=https://hawkular-metrics.apps.104.211.154.71.xip.io/hawkular/metrics
+openshift_hosted_metrics_public_url=https://hawkular-metrics.apps.104.211.90.203.xip.io/hawkular/metrics
 
 ###########################################################################
 
@@ -107,14 +107,14 @@ nodes
 nfs
 
 [masters]
-104.211.154.71
+104.211.90.203
 
 [etcd]
-104.211.154.71
+104.211.90.203
 
 [nodes]
-104.211.154.71
-104.211.154.71 openshift_node_labels="{'logging':'True', 'openshift_schedulable':'True', 'env':'infra'}" openshift_schedulable=True
+104.211.90.203
+104.211.90.203 openshift_node_labels="{'logging':'True', 'openshift_schedulable':'True', 'env':'infra'}" openshift_schedulable=True
 
 [nfs]
-104.211.154.71
+104.211.90.203
