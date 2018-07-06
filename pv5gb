@@ -1,6 +1,16 @@
+mkdir -p /srv/nfs/user-vols/pv{1..200}
+
+for pvnum in {1..50} ; do
+echo /srv/nfs/user-vols/pv${pvnum} *(rw,root_squash) >> /etc/exports.d/openshift-uservols.exports
+chown -R nfsnobody.nfsnobody  /srv/nfs
+chmod -R 777 /srv/nfs
+done
+
+systemctl restart nfs-server
+
 export volsize="5Gi"
 mkdir /root/pvs
-for volume in pv{1..10} ; do
+for volume in pv{1..12} ; do
 cat << EOF > /root/pvs/${volume}
 {
   "apiVersion": "v1",
@@ -15,7 +25,7 @@ cat << EOF > /root/pvs/${volume}
     "accessModes": [ "ReadWriteOnce" ],
     "nfs": {
         "path": "/srv/nfs/user-vols/${volume}",
-        "server": "104.211.154.71"
+        "server": "104.211.90.203"
     },
     "persistentVolumeReclaimPolicy": "Recycle"
   }
@@ -26,7 +36,7 @@ done;
 
 export volsize="1Gi"
 mkdir /root/pvs
-for volume in pv{11..25} ; do
+for volume in pv{13..25} ; do
 cat << EOF > /root/pvs/${volume}
 {
   "apiVersion": "v1",
@@ -41,9 +51,59 @@ cat << EOF > /root/pvs/${volume}
     "accessModes": [ "ReadWriteOnce" ],
     "nfs": {
         "path": "/srv/nfs/user-vols/${volume}",
-        "server": "104.211.154.71"
+        "server": "104.211.90.203"
     },
     "persistentVolumeReclaimPolicy": "Recycle"
+  }
+}
+EOF
+echo "Created def file for ${volume}";
+done;
+
+export volsize="1Gi"
+for volume in pv{26..32} ; do
+cat << EOF > /root/pvs/${volume}
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "${volume}"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "${volsize}"
+    },
+    "accessModes": [ "ReadWriteMany" ],
+    "nfs": {
+        "path": "/srv/nfs/user-vols/${volume}",
+        "server": "104.211.90.203"
+    },
+    "persistentVolumeReclaimPolicy": "Retain"
+  }
+}
+EOF
+echo "Created def file for ${volume}";
+done;
+
+export volsize="5Gi"
+for volume in pv{33..50} ; do
+cat << EOF > /root/pvs/${volume}
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "${volume}"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "${volsize}"
+    },
+    "accessModes": [ "ReadWriteMany" ],
+    "nfs": {
+        "path": "/srv/nfs/user-vols/${volume}",
+        "server": "104.211.90.203"
+    },
+    "persistentVolumeReclaimPolicy": "Retain"
   }
 }
 EOF
